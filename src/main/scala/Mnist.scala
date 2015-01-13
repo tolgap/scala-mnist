@@ -29,7 +29,7 @@ object Mnist extends App {
   val network = ArtificialNeuralNetwork.train(train, Array[Int](300), 1000)
 
   val prediction = network.predict(testValues.cache).map(_._2.toArray)
-  val pred = prediction.map(indexOfMax(_)).cache
+  val pred = prediction.map(indexOfMax).cache
   val output = pred.zip(testLabels)
   output.saveAsTextFile(args(2))
 
