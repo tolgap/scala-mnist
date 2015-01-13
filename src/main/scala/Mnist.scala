@@ -21,14 +21,14 @@ object Mnist extends App {
       labs(e.last.toInt) = 1
       Vectors.dense(labs)
     }
-  }
-  val train = trainValues.zip(trainLabels.cache)
-  val testValues = testImages.map(e => Vectors.dense(e.tail.map(_.toDouble)))
-  val testLabels = testImages.map(e => Vectors.dense(e.last.toDouble))
+  }.cache
+  val train = trainValues.zip(trainLabels.cache).cache
+  val testValues = testImages.map(e => Vectors.dense(e.tail.map(_.toDouble))).cache
+  val testLabels = testImages.map(e => Vectors.dense(e.last.toDouble)).cache
 
   val network = ArtificialNeuralNetwork.train(train, Array[Int](300), 1000)
 
-  val prediction = network.predict(testValues.cache).map(_._2.toArray)
+  val prediction = network.predict(testValues.cache).map(_._2.toArray).cache
   val pred = prediction.map(indexOfMax).cache
   val output = pred.zip(testLabels)
   output.saveAsTextFile(args(2))
