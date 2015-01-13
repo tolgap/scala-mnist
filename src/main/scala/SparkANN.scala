@@ -331,8 +331,10 @@ object ArtificialNeuralNetwork {
   private def convertTopology(
                                input: RDD[(Vector,Vector)],
                                hiddenLayersTopology: Array[Int] ): Array[Int] = {
-    val firstElt: (Vector, Vector) = input.first
-    hiddenLayersTopology.+:(firstElt._1.size).:+(firstElt._2.size)
+    val firstElt = input.first
+    val inputTopology = Array[Int](firstElt._1.size)
+    val outputTopology = Array[Int](firstElt._2.size)
+    inputTopology.++(hiddenLayersTopology).++(outputTopology)
   }
 
   private def randomWeights(topology: Array[Int], useSeed: Boolean, seed: Int = 0): Vector = {
