@@ -325,19 +325,19 @@ object ArtificialNeuralNetwork {
                      seed: Int): Vector = {
 
     val topology = inputLayerSize +: hiddenLayersTopology :+ outputLayerSize
-    return randomWeights(topology, true, seed)
+    randomWeights(topology, true, seed)
   }
 
   private def convertTopology(
                                input: RDD[(Vector,Vector)],
                                hiddenLayersTopology: Array[Int] ): Array[Int] = {
-    val firstElt = input.first
-    firstElt._1.size +: hiddenLayersTopology :+ firstElt._2.size
+    val firstElt: (Vector, Vector) = input.first
+    hiddenLayersTopology.+:(firstElt._1.size).:+(firstElt._2.size)
   }
 
   private def randomWeights(topology: Array[Int], useSeed: Boolean, seed: Int = 0): Vector = {
     val rand: XORShiftRandom =
-      if( useSeed == false ) new XORShiftRandom() else new XORShiftRandom(seed)
+      if (!useSeed) new XORShiftRandom() else new XORShiftRandom(seed)
     var i: Int = 0
     var l: Int = 0
     val noWeights = {
