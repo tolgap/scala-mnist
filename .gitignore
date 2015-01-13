@@ -8,6 +8,7 @@ target
 .idea
 out
 
+.tags
 tags
 .*.swp
 .*.swo
