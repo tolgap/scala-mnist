@@ -4,17 +4,17 @@ import org.apache.spark.{SparkContext, SparkConf}
 
 object Mnist extends App {
   private final val SEPERATOR = "\t"
-  private final val SPLITS    = 28
 
   val conf = new SparkConf().setAppName("MNIST Neural Network")
   val sc = new SparkContext(conf)
 
-  val trainImages = sc.textFile(args(0), SPLITS)
+  val trainImages = sc.textFile(args(0))
       .map(_ split SEPERATOR).cache
-  val testImages  = sc.textFile(args(1), SPLITS)
+  val testImages  = sc.textFile(args(1))
       .map(_ split SEPERATOR).cache
 
-  val trainValues = trainImages.map(e => Vectors.dense(e.init.map(_.toDouble))).cache
+  val trainValues = trainImages
+      .map(e => Vectors.dense(e.init.map(_.toDouble))).cache
   val trainLabels = trainImages.map {
     e => {
       val labs = Array.ofDim[Double](10)
@@ -33,10 +33,11 @@ object Mnist extends App {
   val prediction = network.predict(testValues).map(_._2.toArray).cache
   val pred       = prediction.map(indexOfMax).cache
   val output     = pred.zip(testLabels)
-  val errRate    = output.map(T => (T._2.toArray(0) - T._1) * (T._2.toArray(0) - T._1)).reduce((u,v) => u + v)
+  val errRate    = output.map(T => (T._2.toArray(0) - T._1) * (T._2.toArray(0) - T._1))
+      .reduce((u,v) => u + v)
 //  output.saveAsTextFile(args(2))
 
-  println("Elapsed training time: ${(endTime - startTime) / 1000}s. Error rate: ${errRate}.")
+  println(s"Elapsed training time: ${(endTime - startTime) / 1000}s. Error rate: $errRate.")
 
   final def indexOfMax(values: Array[Double]) = {
     val max = values.max
