@@ -14,7 +14,7 @@ object Mnist extends App {
   val testImages  = sc.textFile(args(1), SPLITS)
       .map(_ split SEPERATOR).cache
 
-  val trainValues = trainImages.map(e => Vectors.dense(e.tail.map(_.toDouble))).cache
+  val trainValues = trainImages.map(e => Vectors.dense(e.init.map(_.toDouble))).cache
   val trainLabels = trainImages.map {
     e => {
       val labs = Array.ofDim[Double](10)
