@@ -26,9 +26,22 @@ object Mnist extends App {
 
   val prediction = network.predict(testValues).map(_._2).cache
   val output     = prediction.zip(testLabels).cache
-  val errRate    = output.map(T =>
-      (T._2.toArray(0) - T._1.toArray(0)) * (T._2.toArray(0) - T._1.toArray(0))
-    ).reduce((u, v) => u + v)
+  val errRate    = output.map {
+    T =>
+      val p = T._1.toArray
+      val l = T._2.toArray
+//      Vectorized solution of 10D squared error
+      (p(0) - l(0)) * (p(0) - l(0)) +
+        (p(1) - l(1)) * (p(1) - l(1)) +
+        (p(2) - l(2)) * (p(2) - l(2)) +
+        (p(3) - l(3)) * (p(3) - l(3)) +
+        (p(4) - l(4)) * (p(4) - l(4)) +
+        (p(5) - l(5)) * (p(5) - l(5)) +
+        (p(6) - l(6)) * (p(6) - l(6)) +
+        (p(7) - l(7)) * (p(7) - l(7)) +
+        (p(8) - l(8)) * (p(8) - l(8)) +
+        (p(9) - l(9)) * (p(9) - l(9))
+  }.reduce((u, v) => u + v)
 //  output.saveAsTextFile(args(2))
 
   println(s"Elapsed training time: ${(endTime - startTime) / 1000}s. Error rate: $errRate.")
