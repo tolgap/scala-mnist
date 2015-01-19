@@ -26,10 +26,11 @@ object Mnist extends App {
 
   val prediction = network.predict(testValues).map(_._2).cache
   val output     = prediction.zip(testLabels).cache
+  val n          = output.count
   val errRate    = output.map {
     T =>
-      val p = T._1.toArray
-      val l = T._2.toArray
+      val p = T._2.toArray
+      val l = T._1.toArray
 //      Vectorized solution of 10D squared error
       (p(0) - l(0)) * (p(0) - l(0)) +
         (p(1) - l(1)) * (p(1) - l(1)) +
@@ -39,11 +40,12 @@ object Mnist extends App {
         (p(5) - l(5)) * (p(5) - l(5)) +
         (p(6) - l(6)) * (p(6) - l(6)) +
         (p(7) - l(7)) * (p(7) - l(7)) +
-        (p(8) - l(8)) * (p(8) - l(8))
+        (p(8) - l(8)) * (p(8) - l(8)) +
+        (p(9) - l(9)) * (p(9) - l(9))
   }.reduce((u, v) => u + v)
 //  output.saveAsTextFile(args(2))
 
-  println(s"Elapsed training time: ${(endTime - startTime) / 1000}s. Error rate: $errRate.")
+  println(s"Elapsed training time: ${(endTime - startTime) / 1000}s. Error rate: ${errRate / n}.")
 
   def indexOfMax(values: Array[Double]) = {
     val max = values.max
