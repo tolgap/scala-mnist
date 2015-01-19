@@ -5,7 +5,7 @@ The Spark implementation of an ANN running the MNIST dataset.
 ## ANN
 
 The used ANN is `bgreeven`'s ANN implementation in Spark. It has yet to be merged
-into Spark-MLlib, but it's available as code for now.
+into Spark-MLlib, but it's [available as code for now](https://github.com/apache/spark/pull/1290).
 
 ## Usage
 
