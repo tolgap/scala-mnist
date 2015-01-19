@@ -4,8 +4,8 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkContext, SparkConf}
 
 object Mnist extends App {
-  private val SEPERATOR = "\t"
-  private val SPLITS    = 24
+  private final val SEPERATOR = "\t"
+  private final val SPLITS    = 24
 
   val conf = new SparkConf().setAppName("MNIST Neural Network")
   val sc = new SparkContext(conf)
