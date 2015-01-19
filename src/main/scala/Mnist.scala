@@ -39,8 +39,7 @@ object Mnist extends App {
         (p(5) - l(5)) * (p(5) - l(5)) +
         (p(6) - l(6)) * (p(6) - l(6)) +
         (p(7) - l(7)) * (p(7) - l(7)) +
-        (p(8) - l(8)) * (p(8) - l(8)) +
-        (p(9) - l(9)) * (p(9) - l(9))
+        (p(8) - l(8)) * (p(8) - l(8))
   }.reduce((u, v) => u + v)
 //  output.saveAsTextFile(args(2))
 
