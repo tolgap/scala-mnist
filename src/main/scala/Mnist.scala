@@ -21,7 +21,7 @@ object Mnist extends App {
   val (testValues, testLabels) = splitValuesLabels(testImages)
 
   val startTime = System.currentTimeMillis
-  val network   = ArtificialNeuralNetwork.train(train, Array[Int](300), 500)
+  val network   = ArtificialNeuralNetwork.train(train, Array[Int](100), 100)
   val endTime   = System.currentTimeMillis
 
   val prediction = network.predict(testValues).map(_._2).cache
