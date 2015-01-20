@@ -53,7 +53,7 @@ object Mnist extends App {
   }
 
   def splitValuesLabels(valLab: RDD[Array[String]]): (RDD[Vector], RDD[Vector]) = {
-    val values = valLab.map(e => Vectors.dense(e.init.map(_.toDouble)))
+    val values = valLab.map(e => Vectors.dense(e.init.map(_.toDouble / 255D)))
     val labels = valLab.map {
       e =>
         val labs = Array.ofDim[Double](10)
